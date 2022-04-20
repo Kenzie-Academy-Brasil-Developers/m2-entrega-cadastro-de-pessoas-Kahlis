@@ -25,6 +25,11 @@ class Pessoa {
         return this._role;
     }
 
+    static NovaPessoaAoContainer(pessoa) {
+        register.push(pessoa);
+        RebuildContainer("Todos");
+    }
+
     toHTML() {
         const pessoaHTML = document.createElement("li");
         pessoaHTML.innerHTML = `<span>${this.name}</span><span>${this.email}</span><span>${this.role}</span>`;
@@ -42,10 +47,10 @@ class Pessoa {
 let register = [];
 
 let Marcos = new Pessoa("Marcos", "Lima", "1998-05-04", "marcos@hotmail.com", "", "(14) 99856-7348", "Facilitador");
-let Daila = new Pessoa("Dáila", "Oliveira", "2000-07-02", "dalia@gmail.com", "", "(11) 99153-2924", "Facilitador");
-let Luana = new Pessoa("Luana", "Alves", "1995-04-05", "marcos@hotmail.com", "", "(16) 98018-1621", "Instrutor");
-let Felipe = new Pessoa("Felipe", "Melo", "1999-03-10", "marcos@hotmail.com", "", "(16) 98642-7380", "Aluno");
-let Paulo = new Pessoa("Paulo", "Gomes", "1999-03-10", "marcos@hotmail.com", "", "(17) 98294-7339", "Aluno");
+let Daila = new Pessoa("Dáila", "Oliveira", "2000-07-02", "daila@gmail.com", "", "(11) 99153-2924", "Facilitador");
+let Luana = new Pessoa("Luana", "Alves", "1995-04-05", "lua.alves@outlook.com", "", "(16) 98018-1621", "Instrutor");
+let Felipe = new Pessoa("Felipe", "Melo", "1999-03-10", "felipe@gmail.com", "", "(16) 98642-7380", "Aluno");
+let Paulo = new Pessoa("Paulo", "Gomes", "1999-03-10", "paulo@hotmail.com", "", "(17) 98294-7339", "Aluno");
 
 register.push(Marcos);
 register.push(Daila);
@@ -89,7 +94,7 @@ document.getElementById("register-button").addEventListener("click", () => {
     }
 
     if(error === false) {
-        register.push(newPerson);
+        Pessoa.NovaPessoaAoContainer(newPerson);
         RebuildContainer("Todos");
     }
 });
