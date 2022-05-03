@@ -26,14 +26,16 @@ class Pessoa {
     }
 
     static NovaPessoaAoContainer(pessoa) {
-        register.push(pessoa);
-        RebuildContainer("Todos");
-    }
+        if(!register.includes(pessoa)) {
+            register.push(pessoa);
+        }
 
-    toHTML() {
         const pessoaHTML = document.createElement("li");
-        pessoaHTML.innerHTML = `<span>${this.name}</span><span>${this.email}</span><span>${this.role}</span>`;
-        return pessoaHTML;
+        pessoaHTML.innerHTML = `<span>${pessoa.name}</span><span>${pessoa.email}</span><span>${pessoa.role}</span>`;
+        const container = document.getElementById("lista-de-alunos");
+        if(pessoa.role === currentRole || currentRole == "Todos") {
+            container.appendChild(pessoaHTML);
+        }
     }
 
     //Pedaço de código extraído da internet - https://www.codegrepper.com/
@@ -44,6 +46,7 @@ class Pessoa {
     //Fim do código com base na internet
 }
 
+let currentRole = "Todos";
 let register = [];
 
 let Marcos = new Pessoa("Marcos", "Lima", "1998-05-04", "marcos@hotmail.com", "", "(14) 99856-7348", "Facilitador");
@@ -95,7 +98,6 @@ document.getElementById("register-button").addEventListener("click", () => {
 
     if(error === false) {
         Pessoa.NovaPessoaAoContainer(newPerson);
-        RebuildContainer("Todos");
     }
 });
 
@@ -105,16 +107,23 @@ document.getElementById("btn").addEventListener("click", () => {
 });
 
 function RebuildContainer(filter) {
+    let count = 0;
+    ClearContainer();
+    currentRole = filter;
+    register.forEach(element => {
+        if(element.role == filter || filter == "Todos") {
+            Pessoa.NovaPessoaAoContainer(element);
+            count++;
+        }
+    });
+    document.getElementById("total-alunos").innerText = count;
+}
+
+function ClearContainer() {
     const container = document.getElementById("lista-de-alunos");
     let child = container.lastChild;
     while(child) {
         container.removeChild(child);
         child = container.lastChild;
     }
-    register.forEach(element => {
-        if(element.role == filter || filter == "Todos") {
-            container.appendChild(element.toHTML());
-        }
-    });
-    document.getElementById("total-alunos").innerText = register.length;
 }
